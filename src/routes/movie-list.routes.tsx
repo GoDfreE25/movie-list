@@ -4,6 +4,7 @@ import { Paths } from "./route-names";
 import { SomethingWentWrong } from "../components/errors/something-went-wrong";
 import MovieList from "../components/movie-list/movie-list";
 import MovieDetails from "../components/movie-details/movie-details";
+import FavoriteMovies from "../components/favorite-movies/favorite-movies";
 
 export const MovieRoutes = () => {
   return (
@@ -18,11 +19,11 @@ export const MovieRoutes = () => {
         errorElement={<SomethingWentWrong />}
         element={<MovieDetails />}
       />
-      {/* <Route
-        path={Paths.ResetPassword}
+      <Route
+        path={Paths.FavoriteMovies}
         errorElement={<SomethingWentWrong />}
-        element={<ResetPassword />}
-      /> */}
+        element={<FavoriteMovies />}
+      />
     </Routes>
   );
 };
