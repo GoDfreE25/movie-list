@@ -89,8 +89,7 @@
         "Ralph Fiennes"
       ],
       "director": "Steven Spielberg",
-      "image": "https://upload.wikimedia.org/wikipedia/en/3/38/Schindler%27s_List_movie.jpg",
-      "favorite": true
+      "image": "https://upload.wikimedia.org/wikipedia/en/3/38/Schindler%27s_List_movie.jpg"
     },
     {
       "id": 6,
@@ -367,6 +366,5 @@
       "director": "Steven Spielberg",
       "image": "https://upload.wikimedia.org/wikipedia/en/3/38/Schindler%27s_List_movie.jpg"
     }
-  ],
-  "favoriteMovies": []
+  ]
 }

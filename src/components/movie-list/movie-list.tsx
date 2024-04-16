@@ -35,8 +35,18 @@ const MovieList = () => {
       });
   }, []);
 
-  // const handleDelete = (id) => {
-  // };
+  const handleDelete = (id: number) => {
+    axios
+      .delete(`http://localhost:3001/movies/${id}`)
+      .then(() => {
+        setMovies((prevMovies) =>
+          prevMovies.filter((movie) => movie.id !== id)
+        );
+      })
+      .catch((error) => {
+        console.error("Error deleting movie:", error);
+      });
+  };
 
   const handleFavorite = (id: number) => {
     const selectedMovie = movies.find((movie) => {
@@ -94,7 +104,7 @@ const MovieList = () => {
                   sx={{ color: movie.favorite ? "red" : "white" }}
                 />
               </IconButton>
-              <IconButton onClick={() => {}}>
+              <IconButton onClick={() => handleDelete(movie.id)}>
                 <DeleteIcon sx={{ color: "white" }} />
               </IconButton>
               <IconButton onClick={() => {}}>

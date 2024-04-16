@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { IconButton, Typography } from "@mui/material";
+import "./favorite-movies.scss";
 
 const FavoriteMovies = () => {
   const [movies, setMovies] = useState<Movies[]>([]);
@@ -58,7 +59,14 @@ const FavoriteMovies = () => {
           .filter((el) => el.favorite)
           .map((movie) => (
             <li key={movie.id} className="movie_container">
-              <img className="image" src={movie.image} alt={movie.title} />
+              <div className="movie-item">
+                <img className="image" src={movie.image} alt={movie.title} />
+                <div className="button">
+                  <IconButton onClick={() => handleDislike(movie.id)}>
+                    <HeartBrokenIcon sx={{ color: "white" }} />
+                  </IconButton>
+                </div>
+              </div>
               <div className="info_container">
                 <Typography
                   sx={{ color: "white" }}
@@ -73,11 +81,6 @@ const FavoriteMovies = () => {
                 <Typography sx={{ color: "white", fontSize: "18px" }}>
                   Release Date: {movie.release_date}
                 </Typography>
-              </div>
-              <div>
-                <IconButton onClick={() => handleDislike(movie.id)}>
-                  <HeartBrokenIcon sx={{ color: "white" }} />
-                </IconButton>
               </div>
             </li>
           ))}
