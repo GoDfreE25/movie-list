@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { IconButton, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -46,13 +46,13 @@ const MovieList = () => {
       <ul className="movies_container">
         {movies.map((movie) => (
           <li key={movie.id} className="movie_container">
-            <img className="image" src={movie.image} alt={movie.title} />
+            <Link className="link" to={`/movies/${movie.id}`}>
+              <img className="image" src={movie.image} alt={movie.title} />
+            </Link>
             <div className="info_container">
               <Typography sx={{ color: "white" }} variant="h5" component="div">
                 {movie.title}
               </Typography>
-              {/* <Link to={`/movies/${movie.id}`}>
-             </Link> */}
               <Typography sx={{ color: "white", fontSize: "18px" }}>
                 Rating: {movie.rating}
               </Typography>

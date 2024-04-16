@@ -1,3 +1,4 @@
 export enum Paths {
-  MovieList = '/',
+  MovieList = "/",
+  MovieDetails = "/movies/:id",
 }
