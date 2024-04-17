@@ -22,9 +22,6 @@ const MovieDetails = () => {
       });
   }, [id]);
 
-  // const handleFavorite = () => {
-  // };
-
   return (
     <div>
       {movie ? (
@@ -50,7 +47,6 @@ const MovieDetails = () => {
               <span className="title">Rating: {movie.rating}</span>
             </div>
           </div>
-          {/* <button onClick={handleFavorite}>Favorite</button> */}
         </div>
       ) : (
         <p>Loading...</p>

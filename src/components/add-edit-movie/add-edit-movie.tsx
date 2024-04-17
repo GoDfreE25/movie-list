@@ -19,14 +19,12 @@ interface AddEditMovieProps {
   setMovies: React.Dispatch<React.SetStateAction<Movies[]>>;
   selectedMovie: Movies | null;
   open: boolean;
-  movies: Movies[];
   onClose: (value: boolean) => void;
 }
 
 const AddEditMovie: React.FC<AddEditMovieProps> = ({
   mode = Mode.View,
   open,
-  movies,
   selectedMovie,
   onClose,
   setMovies,
@@ -44,7 +42,6 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
   };
   const [formData, setFormData] = useState<Movies>(emptyMovie);
   const uniqueId = () => Math.round(Date.now() * Math.random());
-  console.log(formData);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -232,32 +229,34 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             onChange={handleChange}
           />
         </div>
-        <Button
-          fullWidth
-          onClick={() => handleAddEditMovie()}
-          variant="contained"
-          sx={{
-            "&.Mui-disabled": {
-              background: "rgb(46, 122, 157)",
-              color: "#c0c0c0",
-            },
-          }}
-          color="primary"
-          disabled={checkEmptyValue}
-        >
-          {mode === Mode.Edit ? "Edit Movie" : "Add Movie"}
-        </Button>
-        <Button
-          fullWidth
-          onClick={() => {
-            setFormData(emptyMovie);
-            onClose(false);
-          }}
-          variant="contained"
-          color="primary"
-        >
-          Cancel
-        </Button>
+        <div className="button_container">
+          <Button
+            fullWidth
+            onClick={() => handleAddEditMovie()}
+            variant="contained"
+            sx={{
+              "&.Mui-disabled": {
+                background: "rgb(46, 122, 157)",
+                color: "#c0c0c0",
+              },
+            }}
+            color="primary"
+            disabled={checkEmptyValue}
+          >
+            {mode === Mode.Edit ? "Edit Movie" : "Add Movie"}
+          </Button>
+          <Button
+            fullWidth
+            onClick={() => {
+              setFormData(emptyMovie);
+              onClose(false);
+            }}
+            variant="contained"
+            color="primary"
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
     </Dialog>
   );

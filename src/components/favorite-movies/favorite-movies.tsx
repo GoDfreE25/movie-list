@@ -1,6 +1,5 @@
-// FavoriteMovies.js
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // If you're using Axios for API requests
+import axios from "axios";
 import { Movies } from "../movie-list/movie-list";
 import { useNavigate } from "react-router-dom";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";

@@ -21,7 +21,7 @@
       "id": 2,
       "title": "The Godfather",
       "description": "The story of the Corleone family, one of the most powerful Mafia organizations in the US.",
-      "rating": "",
+      "rating": "9",
       "release_date": "1972-03-24",
       "genre": [
         "Drama"
@@ -52,7 +52,8 @@
         "Aaron Eckhart"
       ],
       "director": "Christopher Nolan",
-      "image": "https://upload.wikimedia.org/wikipedia/sco/8/83/Dark_knight_rises_poster.jpg"
+      "image": "https://upload.wikimedia.org/wikipedia/sco/8/83/Dark_knight_rises_poster.jpg",
+      "favorite": true
     },
     {
       "id": 4,
@@ -379,21 +380,6 @@
       "release_date": "2023-04-07",
       "image": "https://timesofindia.indiatimes.com/photo/90355881.cms",
       "id": 765542432466
-    },
-    {
-      "title": "чяс",
-      "description": "чяся",
-      "actors": [
-        "чся"
-      ],
-      "director": "ячся",
-      "genre": [
-        "ячся"
-      ],
-      "rating": "2",
-      "release_date": "2024-04-06",
-      "image": "https://timesofindia.indiatimes.com/photo/90355881.cms",
-      "id": 329443547730
     }
   ]
 }

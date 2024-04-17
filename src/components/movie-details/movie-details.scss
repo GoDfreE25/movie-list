@@ -1,4 +1,5 @@
 .detail_container {
+  width: 95%;
   background: #252627;
   padding: 20px;
   display: flex;
@@ -15,6 +16,7 @@
     justify-content: space-between;
   }
   .info_container {
+    width: 100%;
     margin-left: 15px;
     display: flex;
     flex-direction: column;
