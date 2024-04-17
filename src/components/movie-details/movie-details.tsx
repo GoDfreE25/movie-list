@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Movies } from "../movie-list/movie-list";
-import { IconButton, Typography } from "@mui/material";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { Typography } from "@mui/material";
 import "./movie-details.scss";
 
 const MovieDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [movie, setMovie] = useState<Movies | null>(null);
 
   useEffect(() => {
@@ -32,9 +30,6 @@ const MovieDetails = () => {
               <Typography sx={{ color: "white" }} variant="h5" component="div">
                 {movie.title}
               </Typography>
-              <IconButton onClick={() => navigate("/")}>
-                <KeyboardBackspaceIcon sx={{ color: "white" }} />
-              </IconButton>
             </div>
 
             <div className="info_container">

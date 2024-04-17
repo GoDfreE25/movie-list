@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, Chip, IconButton, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -15,9 +15,9 @@ import "./movie-list.scss";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.25),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.4),
   },
   marginLeft: 0,
   width: "100%",
@@ -32,18 +32,22 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   height: "100%",
   position: "absolute",
   pointerEvents: "none",
+  color: alpha(theme.palette.common.white, 0.6),
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
+  color: alpha(theme.palette.common.white, 1),
   width: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
+    "&::placeholder": {
+      color: alpha(theme.palette.common.white, 1),
+    },
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
@@ -157,7 +161,9 @@ const MovieList = () => {
     }
   };
 
-  const handleChange = (event: any) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const inputValue = event.target.value;
     setQuery(inputValue);
     debouncedHandleChange(inputValue);
@@ -166,8 +172,37 @@ const MovieList = () => {
   return (
     <div className="container">
       <header className="movie_header">
-        <div style={{ width: "55%" }} />
         <div className="search_container">
+          <div className="button_container">
+            <Button
+              sx={{
+                fontWeight: 600,
+                color: "white",
+                borderColor: "gray",
+                "&:hover": {
+                  borderColor: "white",
+                },
+              }}
+              variant="outlined"
+              onClick={() => navigate("/favorite")}
+            >
+              Favorite
+            </Button>
+            <Button
+              sx={{
+                fontWeight: 600,
+                color: "white",
+                borderColor: "gray",
+                "&:hover": {
+                  borderColor: "white",
+                },
+              }}
+              variant="outlined"
+              onClick={() => handleAdd()}
+            >
+              Add movie
+            </Button>
+          </div>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -179,10 +214,6 @@ const MovieList = () => {
               placeholder="Search movies by title..."
             />
           </Search>
-          <div>
-            <Button onClick={() => navigate("/favorite")}>Favorite</Button>
-            <Button onClick={() => handleAdd()}>Add movie</Button>
-          </div>
         </div>
       </header>
       <body className="body">
@@ -223,18 +254,18 @@ const MovieList = () => {
               </Link>
               <div className="info_container">
                 <Typography
-                  sx={{ color: "white" }}
+                  sx={{ color: "white", height: "65px" }}
                   variant="h5"
                   component="div"
                 >
                   {movie.title}
                 </Typography>
-                <Typography sx={{ color: "white", fontSize: "18px" }}>
-                  Rating: {movie.rating}
-                </Typography>
-                <Typography sx={{ color: "white", fontSize: "18px" }}>
-                  Release Date: {movie.release_date}
-                </Typography>
+                <div className="footer">
+                  <Chip color="primary" size="small" label={movie.rating} />
+                  <Typography sx={{ color: "white", fontSize: "18px" }}>
+                    Date: {movie.release_date}
+                  </Typography>
+                </div>
               </div>
             </li>
           ))}

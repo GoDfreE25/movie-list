@@ -32,8 +32,7 @@
         "James Caan"
       ],
       "director": "Francis Ford Coppola",
-      "image": "https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg",
-      "favorite": true
+      "image": "https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg"
     },
     {
       "id": 3,
@@ -52,8 +51,7 @@
         "Aaron Eckhart"
       ],
       "director": "Christopher Nolan",
-      "image": "https://upload.wikimedia.org/wikipedia/sco/8/83/Dark_knight_rises_poster.jpg",
-      "favorite": true
+      "image": "https://upload.wikimedia.org/wikipedia/sco/8/83/Dark_knight_rises_poster.jpg"
     },
     {
       "id": 4,
@@ -107,7 +105,8 @@
         "Samuel L. Jackson"
       ],
       "director": "Quentin Tarantino",
-      "image": "https://upload.wikimedia.org/wikipedia/en/3/3b/Pulp_Fiction_%281994%29_poster.jpg"
+      "image": "https://upload.wikimedia.org/wikipedia/en/3/3b/Pulp_Fiction_%281994%29_poster.jpg",
+      "favorite": true
     },
     {
       "id": 7,

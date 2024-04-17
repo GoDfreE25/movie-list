@@ -4,7 +4,7 @@ import { Movies } from "../movie-list/movie-list";
 import { useNavigate } from "react-router-dom";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { IconButton, Typography } from "@mui/material";
+import { Chip, IconButton, Typography } from "@mui/material";
 import "./favorite-movies.scss";
 
 const FavoriteMovies = () => {
@@ -74,12 +74,12 @@ const FavoriteMovies = () => {
                 >
                   {movie.title}
                 </Typography>
-                <Typography sx={{ color: "white", fontSize: "18px" }}>
-                  Rating: {movie.rating}
-                </Typography>
-                <Typography sx={{ color: "white", fontSize: "18px" }}>
-                  Release Date: {movie.release_date}
-                </Typography>
+                <div className="footer">
+                  <Chip color="primary" size="small" label={movie.rating} />
+                  <Typography sx={{ color: "white", fontSize: "18px" }}>
+                    Date: {movie.release_date}
+                  </Typography>
+                </div>
               </div>
             </li>
           ))}

@@ -131,7 +131,7 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
           <TextField
             fullWidth
             multiline
-            maxRows={2}
+            maxRows={3}
             className="text_field"
             placeholder="Enter description"
             type="text"
