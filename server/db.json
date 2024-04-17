@@ -15,18 +15,16 @@
         "Morgan Freeman"
       ],
       "director": "Frank Darabont",
-      "image": "https://upload.wikimedia.org/wikipedia/en/8/81/ShawshankRedemptionMoviePoster.jpg",
-      "favorite": true
+      "image": "https://upload.wikimedia.org/wikipedia/en/8/81/ShawshankRedemptionMoviePoster.jpg"
     },
     {
       "id": 2,
       "title": "The Godfather",
       "description": "The story of the Corleone family, one of the most powerful Mafia organizations in the US.",
-      "rating": 9.2,
+      "rating": "",
       "release_date": "1972-03-24",
       "genre": [
-        "drama",
-        "crime"
+        "Drama"
       ],
       "actors": [
         "Marlon Brando",
@@ -34,7 +32,8 @@
         "James Caan"
       ],
       "director": "Francis Ford Coppola",
-      "image": "https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg"
+      "image": "https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg",
+      "favorite": true
     },
     {
       "id": 3,
@@ -365,6 +364,36 @@
       ],
       "director": "Steven Spielberg",
       "image": "https://upload.wikimedia.org/wikipedia/en/3/38/Schindler%27s_List_movie.jpg"
+    },
+    {
+      "title": "Aquaman",
+      "description": "Story about",
+      "actors": [
+        "Jason Mamoa"
+      ],
+      "director": "Director",
+      "genre": [
+        "Action"
+      ],
+      "rating": "9.5",
+      "release_date": "2023-04-07",
+      "image": "https://timesofindia.indiatimes.com/photo/90355881.cms",
+      "id": 765542432466
+    },
+    {
+      "title": "чяс",
+      "description": "чяся",
+      "actors": [
+        "чся"
+      ],
+      "director": "ячся",
+      "genre": [
+        "ячся"
+      ],
+      "rating": "2",
+      "release_date": "2024-04-06",
+      "image": "https://timesofindia.indiatimes.com/photo/90355881.cms",
+      "id": 329443547730
     }
   ]
 }

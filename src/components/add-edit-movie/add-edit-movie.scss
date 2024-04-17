@@ -1,0 +1,25 @@
+.dialog {
+  width: 100%;
+  max-width: 700px;
+  background: #1d1e20 !important;
+  .text_field {
+    .MuiOutlinedInput-notchedOutline {
+      border-color: rgb(209, 207, 207) !important;
+    }
+    .MuiFormLabel-root {
+      color: white;
+    }
+    .MuiInputBase-input {
+      color: white;
+    }
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+  }
+  .form_container {
+    padding: 0 20px 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}

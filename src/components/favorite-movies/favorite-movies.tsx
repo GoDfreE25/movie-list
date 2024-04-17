@@ -59,7 +59,7 @@ const FavoriteMovies = () => {
           .filter((el) => el.favorite)
           .map((movie) => (
             <li key={movie.id} className="movie_container">
-              <div className="movie-item">
+              <div className="movie_image">
                 <img className="image" src={movie.image} alt={movie.title} />
                 <div className="button">
                   <IconButton onClick={() => handleDislike(movie.id)}>
