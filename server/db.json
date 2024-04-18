@@ -105,8 +105,7 @@
         "Samuel L. Jackson"
       ],
       "director": "Quentin Tarantino",
-      "image": "https://upload.wikimedia.org/wikipedia/en/3/3b/Pulp_Fiction_%281994%29_poster.jpg",
-      "favorite": true
+      "image": "https://upload.wikimedia.org/wikipedia/en/3/3b/Pulp_Fiction_%281994%29_poster.jpg"
     },
     {
       "id": 7,
@@ -197,7 +196,8 @@
         "Carrie-Anne Moss"
       ],
       "director": "The Wachowskis",
-      "image": "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg"
+      "image": "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
+      "favorite": true
     },
     {
       "id": 12,
