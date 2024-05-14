@@ -5,6 +5,7 @@
 ## Technologies:
 * React
 * React Router
+* Redux / Redux Toolkit
 * Material UI
 * JavaScript
 * TypeScript

@@ -1,23 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { connect } from "react-redux";
+import { Actions as MovieDetailsActions } from "./movie-details.controller";
 import { Movies } from "../movie-list/movie-list";
 import { Typography } from "@mui/material";
 import "./movie-details.scss";
+import { AppState } from "../../redux/store";
+import { Movie } from "../../services/movie.model";
 
-const MovieDetails = () => {
+type StateProps = {
+  movie: Movie;
+};
+
+type DispatchProps = {
+  init: (id: number) => void;
+};
+
+type Props = StateProps & DispatchProps;
+
+const MovieDetails: FC<Props> = ({ init, movie }) => {
   const { id } = useParams();
-  const [movie, setMovie] = useState<Movies | null>(null);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/movies/${id}`)
-      .then((response) => {
-        setMovie(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching movie details:", error);
-      });
+    if (id) {
+      init(+id);
+    } else {
+      console.error("Something went wrong");
+    }
   }, [id]);
 
   return (
@@ -50,4 +60,12 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+const mapStateToProps = (state: AppState): StateProps => ({
+  movie: state.movie_details.movie,
+});
+
+const mapDispatchToProps: DispatchProps = {
+  init: MovieDetailsActions.init,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);
