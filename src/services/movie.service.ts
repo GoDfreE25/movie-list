@@ -2,12 +2,12 @@ import { baseAxiosInstance } from "../axios-config";
 import { Movie } from "./movie.model";
 
 export class MovieService {
-  // public static async getAllDepartaments() {
-  //   const { data } = await baseAxiosInstance.get<AllDepartmentsByPage>(
-  //     `/departments/all-by-page`
-  //   );
-  //   return data;
-  // }
+  public static async getAllMovies() {
+    const { data } = await baseAxiosInstance.get<Movie[]>(
+      `http://localhost:3001/movies`
+    );
+    return data;
+  }
 
   public static async getMovieById(id: number) {
     const { data } = await baseAxiosInstance.get<Movie>(
@@ -16,26 +16,23 @@ export class MovieService {
     return data;
   }
 
-  // public static async deleteDepartament(departmentId: string) {
-  //   return baseAxiosInstance.delete(`/departments/delete/${departmentId}`);
-  // }
+  public static async deleteMovie(movieId: number) {
+    return baseAxiosInstance.delete(`http://localhost:3001/movies/${movieId}`);
+  }
 
-  // public static async updateDepartament(
-  //   departmentId: string,
-  //   departmentData: CreateDepartamentData
-  // ) {
-  //   const { data } = await baseAxiosInstance.put<Department>(
-  //     `/departments/update/${departmentId}`,
-  //     departmentData
-  //   );
-  //   return data;
-  // }
+  public static async updateMovie(movieId: number, movieData: Movie) {
+    const { data } = await baseAxiosInstance.put<Movie>(
+      `http://localhost:3001/movies/${movieId}`,
+      movieData
+    );
+    return data;
+  }
 
-  // public static async createDepartament(departmentData: CreateDepartamentData) {
-  //   const { data } = await baseAxiosInstance.post<Department>(
-  //     "/departments/create",
-  //     departmentData
-  //   );
-  //   return data;
-  // }
+  public static async createMovie(movieData: Movie) {
+    const { data } = await baseAxiosInstance.post<Movie>(
+      "http://localhost:3001/movies",
+      movieData
+    );
+    return data;
+  }
 }

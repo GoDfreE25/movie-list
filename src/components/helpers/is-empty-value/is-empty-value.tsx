@@ -1,6 +1,6 @@
-import { Movies } from "../../movie-list/movie-list";
+import { Movie } from "services/movie.model";
 
-export function isEmptyValue(obj: Movies) {
+export function isEmptyValue(obj: Movie) {
   return Object.values(obj).some((value) => {
     if (Array.isArray(value)) {
       return value.length === 0;

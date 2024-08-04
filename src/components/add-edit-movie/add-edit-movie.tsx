@@ -1,112 +1,43 @@
-import axios from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { FC } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import { Movies } from "../movie-list/movie-list";
 import { Button, TextField } from "@mui/material";
 import Label from "../helpers/label/label";
 import "./add-edit-movie.scss";
-import { isEmptyValue } from "../helpers/is-empty-value/is-empty-value";
+import { Actions as MovieListActions } from "../movie-list/movie-list.controller";
+import { connect } from "react-redux";
+import { AppState } from "../../redux/store";
+import { Mode, Movie } from "services/movie.model";
 
-export enum Mode {
-  Edit = "edit",
-  Add = "add",
-  View = "view",
-}
-
-interface AddEditMovieProps {
+type StateProps = {
+  isOpen: boolean;
+  selectedMovie: Movie | null;
   mode: Mode;
-  setMovies: React.Dispatch<React.SetStateAction<Movies[]>>;
-  selectedMovie: Movies | null;
-  open: boolean;
-  onClose: (value: boolean) => void;
-}
+};
 
-const AddEditMovie: React.FC<AddEditMovieProps> = ({
-  mode = Mode.View,
-  open,
+type DispatchProps = {
+  closeModal: () => void;
+  createMovie: (data: Movie) => void;
+  editMovie: (movieId: number, data: Movie) => void;
+  onMovieFieldChange: (values: Partial<Movie>) => void;
+};
+
+type Props = StateProps & DispatchProps;
+
+const AddEditMovie: FC<Props> = ({
+  mode,
+  isOpen,
   selectedMovie,
-  onClose,
-  setMovies,
+  closeModal,
+  createMovie,
+  editMovie,
+  onMovieFieldChange,
 }) => {
-  const emptyMovie = {
-    title: "",
-    description: "",
-    actors: [],
-    director: "",
-    genre: [],
-    rating: 0,
-    release_date: "",
-    image: "",
-    id: 0,
-  };
-  const [formData, setFormData] = useState<Movies>(emptyMovie);
-  const uniqueId = () => Math.round(Date.now() * Math.random());
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      id:
-        mode === Mode.Edit && selectedMovie !== null
-          ? Number(selectedMovie.id)
-          : uniqueId(),
-      [name]: value,
-    }));
-  };
-
-  const checkEmptyValue = useMemo(() => {
-    return isEmptyValue(formData);
-  }, [formData]);
-
-  useEffect(() => {
-    if (mode === Mode.Edit && selectedMovie !== null) {
-      setFormData(selectedMovie);
-    } else {
-      setFormData(emptyMovie);
-    }
-  }, [mode, selectedMovie]);
-
-  const handleAddEditMovie = () => {
-    const url =
-      mode === Mode.Edit
-        ? `http://localhost:3001/movies/${selectedMovie?.id}`
-        : "http://localhost:3001/movies";
-    const method = mode === Mode.Edit ? "put" : "post";
-
-    axios({
-      method,
-      url,
-      data: formData,
-    })
-      .then((response) => {
-        setMovies((prevMovies) => {
-          if (mode === Mode.Edit) {
-            return prevMovies.map((movie) => {
-              if (movie.id === formData.id) {
-                return response.data;
-              }
-              return movie;
-            });
-          } else {
-            return [response.data, ...prevMovies];
-          }
-        });
-        onClose(false);
-        setFormData(emptyMovie);
-      })
-      .catch((error) => {
-        console.error("Error saving movie:", error);
-      });
-  };
-
   return (
     <Dialog
       PaperProps={{ className: "dialog" }}
-      onClose={() => onClose(false)}
-      open={open}
+      onClose={() => closeModal}
+      open={isOpen}
     >
       <DialogTitle sx={{ color: "white", textAlign: "center" }}>
         {mode === Mode.Edit ? "Edit Movie" : "Add Movie"}
@@ -122,8 +53,11 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             type="text"
             size="small"
             name="title"
-            value={formData.title}
-            onChange={handleChange}
+            value={selectedMovie.title}
+            onChange={(event) => {
+              console.log({ title: event.target.value });
+              onMovieFieldChange({ title: event.target.value });
+            }}
           />
         </div>
         <div>
@@ -137,8 +71,10 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             type="text"
             size="small"
             name="description"
-            value={formData.description}
-            onChange={handleChange}
+            value={selectedMovie.description}
+            onChange={(event) =>
+              onMovieFieldChange({ description: event.target.value })
+            }
           />
         </div>
         <div>
@@ -150,12 +86,9 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             size="small"
             className="text_field"
             name="actors"
-            value={formData.actors.join(",")}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                actors: e.target.value.split(","),
-              }))
+            value={selectedMovie.actors.join(",")}
+            onChange={(event) =>
+              onMovieFieldChange({ actors: [event.target.value] })
             }
           />
         </div>
@@ -168,8 +101,10 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             size="small"
             className="text_field"
             name="director"
-            value={formData.director}
-            onChange={handleChange}
+            value={selectedMovie.director}
+            onChange={(event) =>
+              onMovieFieldChange({ director: event.target.value })
+            }
           />
         </div>
         <div>
@@ -181,12 +116,9 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             size="small"
             className="text_field"
             name="genre"
-            value={formData.genre.join(",")}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                genre: e.target.value.split(","),
-              }))
+            value={selectedMovie.genre}
+            onChange={(event) =>
+              onMovieFieldChange({ genre: [event.target.value] })
             }
           />
         </div>
@@ -199,8 +131,10 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             size="small"
             className="text_field"
             name="rating"
-            value={formData.rating}
-            onChange={handleChange}
+            value={selectedMovie.rating}
+            onChange={(event) =>
+              onMovieFieldChange({ rating: +event.target.value })
+            }
           />
         </div>
         <div>
@@ -212,8 +146,10 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             size="small"
             className="text_field"
             name="release_date"
-            value={formData.release_date}
-            onChange={handleChange}
+            value={selectedMovie.release_date}
+            onChange={(event) =>
+              onMovieFieldChange({ release_date: event.target.value })
+            }
           />
         </div>
         <div>
@@ -225,14 +161,20 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
             size="small"
             className="text_field"
             name="image"
-            value={formData.image}
-            onChange={handleChange}
+            value={selectedMovie.image}
+            onChange={(event) =>
+              onMovieFieldChange({ image: event.target.value })
+            }
           />
         </div>
         <div className="button_container">
           <Button
             fullWidth
-            onClick={() => handleAddEditMovie()}
+            onClick={() =>
+              mode === Mode.Edit
+                ? editMovie(selectedMovie.id, selectedMovie)
+                : createMovie(selectedMovie)
+            }
             variant="contained"
             sx={{
               "&.Mui-disabled": {
@@ -241,15 +183,14 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
               },
             }}
             color="primary"
-            disabled={checkEmptyValue}
+            // disabled={checkEmptyValue}
           >
             {mode === Mode.Edit ? "Edit Movie" : "Add Movie"}
           </Button>
           <Button
             fullWidth
             onClick={() => {
-              setFormData(emptyMovie);
-              onClose(false);
+              closeModal();
             }}
             variant="contained"
             color="primary"
@@ -262,4 +203,17 @@ const AddEditMovie: React.FC<AddEditMovieProps> = ({
   );
 };
 
-export default AddEditMovie;
+const mapStateToProps = (state: AppState): StateProps => ({
+  selectedMovie: state.movie_list.data,
+  isOpen: state.movie_list.isOpen,
+  mode: state.movie_list.mode,
+});
+
+const mapDispatchToProps: DispatchProps = {
+  closeModal: MovieListActions.closeModal,
+  createMovie: MovieListActions.createMovie,
+  editMovie: MovieListActions.editMovie,
+  onMovieFieldChange: MovieListActions.onMovieFieldChange,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddEditMovie);

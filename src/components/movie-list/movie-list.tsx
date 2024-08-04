@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, Chip, IconButton, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import AddEditMovie, { Mode } from "../add-edit-movie/add-edit-movie";
+import AddEditMovie from "../add-edit-movie/add-edit-movie";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import debounce from "lodash/debounce";
+import { Mode, Movie } from "services/movie.model";
+import { Actions as MovieListActions } from "./movie-list.controller";
+import { connect } from "react-redux";
+import { AppState } from "../../redux/store";
 import "./movie-list.scss";
 
 const Search = styled("div")(({ theme }) => ({
@@ -57,51 +61,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export type Movies = {
-  id: number;
-  title: string;
-  description: string;
-  rating: number;
-  release_date?: string;
-  genre: Array<string>;
-  actors: Array<string>;
-  director: string;
-  image: string;
-  favorite?: boolean;
+type StateProps = {
+  movies: Movie[];
 };
 
-const MovieList = () => {
-  const [movies, setMovies] = useState<Movies[]>([]);
-  const [selectedMovie, setSelectedMovie] = useState<Movies | null>(null);
+type DispatchProps = {
+  init: () => void;
+  deleteMovie: (id: number) => void;
+  openCreateEditModal: (mode: Mode, movieId?: number) => void;
+};
+
+type Props = StateProps & DispatchProps;
+
+const MovieList: FC<Props> = ({
+  init,
+  deleteMovie,
+  openCreateEditModal,
+  movies,
+}) => {
   const [query, setQuery] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const fetchAllMovies = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3001/movies`);
-      setMovies(response.data);
-    } catch (error) {
-      console.error("Error fetching movies:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchAllMovies();
+    init();
   }, []);
-
-  const handleDelete = (id: number) => {
-    axios
-      .delete(`http://localhost:3001/movies/${id}`)
-      .then(() => {
-        setMovies((prevMovies) =>
-          prevMovies.filter((movie) => movie.id !== id)
-        );
-      })
-      .catch((error) => {
-        console.error("Error deleting movie:", error);
-      });
-  };
 
   const handleFavorite = (id: number) => {
     const selectedMovie = movies.find((movie) => {
@@ -119,32 +102,21 @@ const MovieList = () => {
             return {
               ...selectedMovie,
               favorite: true,
-            } as Movies;
+            } as Movie;
           }
           return movie;
         });
-        setMovies(updatedMovies);
       })
       .catch((error) => {
         console.error("Error updating movie:", error);
       });
   };
-
-  const handleAdd = () => {
-    setSelectedMovie(null);
-    setOpen(true);
-  };
-  const handleEdit = (movie: Movies) => {
-    setSelectedMovie(movie);
-    setOpen(true);
-  };
-
   const debouncedHandleChange = useCallback(
     debounce((inputValue) => {
       if (inputValue.trim() !== "") {
         searchMovies(inputValue);
       } else {
-        fetchAllMovies();
+        init();
       }
     }, 1000),
     []
@@ -155,7 +127,6 @@ const MovieList = () => {
       const response = await axios.get(
         `http://localhost:3001/movies?title_like=${query}`
       );
-      setMovies(response.data);
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
@@ -198,7 +169,7 @@ const MovieList = () => {
                 },
               }}
               variant="outlined"
-              onClick={() => handleAdd()}
+              onClick={() => openCreateEditModal(Mode.Add)}
             >
               Add movie
             </Button>
@@ -237,7 +208,7 @@ const MovieList = () => {
                   <IconButton
                     onClick={(e) => {
                       e.preventDefault();
-                      handleDelete(movie.id);
+                      deleteMovie(movie.id);
                     }}
                   >
                     <DeleteIcon sx={{ color: "white" }} />
@@ -245,7 +216,7 @@ const MovieList = () => {
                   <IconButton
                     onClick={(e) => {
                       e.preventDefault();
-                      handleEdit(movie);
+                      openCreateEditModal(Mode.Edit, movie.id);
                     }}
                   >
                     <EditIcon sx={{ color: "white" }} />
@@ -271,15 +242,19 @@ const MovieList = () => {
           ))}
         </ul>
       </body>
-      <AddEditMovie
-        mode={selectedMovie ? Mode.Edit : Mode.Add}
-        selectedMovie={selectedMovie}
-        open={open}
-        onClose={setOpen}
-        setMovies={setMovies}
-      />
+      <AddEditMovie />
     </div>
   );
 };
 
-export default MovieList;
+const mapStateToProps = (state: AppState): StateProps => ({
+  movies: state.movie_list.movies,
+});
+
+const mapDispatchToProps: DispatchProps = {
+  init: MovieListActions.init,
+  deleteMovie: MovieListActions.deleteMovie,
+  openCreateEditModal: MovieListActions.openCreateEditModal,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

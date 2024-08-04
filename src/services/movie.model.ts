@@ -10,3 +10,9 @@ export type Movie = {
   image: string;
   favorite?: boolean;
 };
+
+export enum Mode {
+  Edit = "edit",
+  Add = "add",
+  View = "view",
+}

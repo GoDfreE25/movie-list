@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Movies } from "../movie-list/movie-list";
 import { useNavigate } from "react-router-dom";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Chip, IconButton, Typography } from "@mui/material";
 import "./favorite-movies.scss";
+import { Movie } from "services/movie.model";
 
 const FavoriteMovies = () => {
-  const [movies, setMovies] = useState<Movies[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const FavoriteMovies = () => {
       .then(() => {
         const updatedMovies = movies.map((movie) => {
           if (movie.id === id) {
-            return selectedMovie as Movies;
+            return selectedMovie as Movie;
           }
           return movie;
         });

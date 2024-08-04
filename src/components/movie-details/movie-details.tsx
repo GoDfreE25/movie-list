@@ -1,16 +1,15 @@
-import { useState, useEffect, FC } from "react";
+import { useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { connect } from "react-redux";
 import { Actions as MovieDetailsActions } from "./movie-details.controller";
-import { Movies } from "../movie-list/movie-list";
 import { Typography } from "@mui/material";
-import "./movie-details.scss";
 import { AppState } from "../../redux/store";
 import { Movie } from "../../services/movie.model";
+import "./movie-details.scss";
 
 type StateProps = {
   movie: Movie;
+  isLoading: boolean;
 };
 
 type DispatchProps = {
@@ -19,7 +18,7 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps;
 
-const MovieDetails: FC<Props> = ({ init, movie }) => {
+const MovieDetails: FC<Props> = ({ init, movie, isLoading }) => {
   const { id } = useParams();
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const MovieDetails: FC<Props> = ({ init, movie }) => {
 
   return (
     <div>
-      {movie ? (
+      {!isLoading ? (
         <div className="detail_container">
           <img className="image" src={movie.image} alt={movie.title} />
           <div>
@@ -54,7 +53,7 @@ const MovieDetails: FC<Props> = ({ init, movie }) => {
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+        <h2>Loading...</h2>
       )}
     </div>
   );
@@ -62,6 +61,7 @@ const MovieDetails: FC<Props> = ({ init, movie }) => {
 
 const mapStateToProps = (state: AppState): StateProps => ({
   movie: state.movie_details.movie,
+  isLoading: state.movie_details.isLoading,
 });
 
 const mapDispatchToProps: DispatchProps = {
